@@ -15,6 +15,9 @@ public class Reserva {
         this.carro = carro;
     }
 
+    /* en esta parte del codigo use la clase Date, la cual hace uso de las fechas y horas */
+
+
     public Date getFechaInicio() { return fechaInicio; }
     public void setFechaInicio(Date fechaInicio) { this.fechaInicio = fechaInicio; }
 

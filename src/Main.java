@@ -1,4 +1,10 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
+
+/*JUAN MANUEL MEZA
+* INGENIERIA EN SISTEMAS 802993*/
 
 public class Main {
     public static void main(String[] args) {
@@ -40,7 +46,45 @@ public class Main {
                     agencia.agregarCarro(carro);
                     break;
                 case 3:
+                    System.out.print("Ingrese DNI del Cliente: ");
+                    String dniCliente = scanner.nextLine();
+                    Cliente clienteReserva = agencia.getClientes().stream()
+                            .filter(c -> c.getDni().equals(dniCliente))
+                            .findFirst()
+                            .orElse(null);
+                    if (clienteReserva == null) {
+                        System.out.println("Cliente no encontrado.");
+                        break;
+                    }
+
+                    System.out.print("Ingrese Matrícula del Carro: ");
+                    String matriculaCarro = scanner.nextLine();
+                    Carro carroReserva = agencia.getCarro(matriculaCarro);
+                    if (carroReserva == null) {
+                        System.out.println("Carro no encontrado.");
+                        break;
+                    }
+
+                    System.out.print("Ingrese Fecha de Inicio (yyyy-MM-dd): ");
+                    String fechaInicioStr = scanner.nextLine();
+                    System.out.print("Ingrese Fecha de Fin (yyyy-MM-dd): ");
+                    String fechaFinStr = scanner.nextLine();
+
+                    try {
+                        Date fechaInicio = new SimpleDateFormat("yyyy-MM-dd").parse(fechaInicioStr);  /* en esta parte del codigo use la clase Date, la cual hace uso de las fechas y horas */
+                        Date fechaFin = new SimpleDateFormat("yyyy-MM-dd").parse(fechaFinStr);
+                        System.out.print("Ingrese Precio Total: ");
+                        double precioTotal = scanner.nextDouble();
+                        scanner.nextLine();
+
+                        Reserva reserva = new Reserva(fechaInicio, fechaFin, precioTotal, clienteReserva, carroReserva);
+                        agencia.agregarReserva(reserva);
+                        System.out.println("Reserva creada ");
+                    } catch (ParseException e) {
+                        System.out.println("fecha incorrecta ");
+                    }
                     break;
+
                 case 4:
                     System.out.println("Clientes:");
                     for (Cliente c : agencia.getClientes()) {
